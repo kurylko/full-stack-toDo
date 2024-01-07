@@ -3,7 +3,7 @@ import ListHeader from "./components/ListHeader";
 import ListItem from "./components/ListItem";
 
 const App = () => {
-    const userEmail = 'testuser@com';
+    const userEmail = 'testtest@com';
     const [tasks, setTasks] = useState(null);
 
     const getData = async () => {
@@ -25,8 +25,8 @@ const App = () => {
 
     return (
         <div className="app">
-            <ListHeader listName={'⛱️ Weekend Tick List'}/>
-            {sortedTasks?.map((task) => <ListItem key={task.id} task={task}/>)}
+            <ListHeader listName={'⛱️ Weekend Tick List'} getData={getData}/>
+            {sortedTasks?.map((task) => <ListItem key={task.id} task={task} getData={getData}/>)}
         </div>
     );
 }

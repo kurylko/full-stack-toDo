@@ -1,6 +1,7 @@
 const PORT = process.env.PORT ?? 8000;
 
 const express = require('express');
+const {v4: uuidv4} = require('uuid');
 const app = express();
 const pool = require('./db');
 const cors = require('cors');
@@ -11,22 +12,48 @@ app.get('/', (req, res) => {
     res.send('hello');
 });
 
+app.use(express.json());
 
-// getting all Todos
+
+// getting Todos by email
 app.get('/todos/:userEmail', async (req, res) => {
     console.log(req);
-    const { userEmail } = req.params;
+    const {userEmail} = req.params;
 
-   try {
-const todos = await pool.query('SELECT * FROM todos WHERE user_email = $1', [userEmail])
-       res.json(todos.rows)
-   } catch (error){
-       console.error('error');
-   }
+    try {
+        const todos = await pool.query('SELECT * FROM todos WHERE user_email = $1', [userEmail])
+        res.json(todos.rows)
+    } catch (error) {
+        console.error('error');
+    }
+});
+
+// getting all Todos
+app.get('/todos', async (req, res) => {
+    try {
+        const todos = await pool.query('SELECT * FROM todos');
+        res.json(todos.rows)
+    } catch (error) {
+        console.error('error');
+    }
 });
 
 
-app.listen(PORT, ()=> console.log(`Server running on PORT ${PORT}`));
+//post a new ToDo
+app.post('/todos', async (req, res) => {
+    const {user_email, title, progress, date} = req.body;
+    const id = uuidv4();
+    console.log(user_email, title, progress, date);
+    try {
+        const newTodo = await pool.query(`INSERT INTO todos (id, user_email, title, progress, date) VALUES ($1, $2, $3, $4, $5)`,
+            [id, user_email, title, progress, date]);
+        res.json(newTodo);
+    } catch (error) {
+        console.error('error');
+    }
+})
+
+app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
 
 
 

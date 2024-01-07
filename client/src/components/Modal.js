@@ -1,14 +1,32 @@
 import {useState} from "react";
 
-const Modal = ({mode, setShowModal}) => {
+const Modal = ({mode, setShowModal, getData, task}) => {
     const editMode = mode === 'edit';
 
     const [data, setData] = useState({
-        user_email: '',
-        title: '',
-        progress: '',
+        user_email: editMode ? task.user_email : 'testtest@com',
+        title: editMode ? task.title : null,
+        progress: editMode ? task.progress : 50,
         date: editMode ? '' : new Date(),
     });
+
+    const postData = async (e) => {
+        e.preventDefault();
+        try {
+          const response = await fetch(`http://localhost:8000/todos`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+          if(response.status === 200) {
+              console.log('Yooohoo');
+              setShowModal(false);
+              getData();
+          }
+        } catch (error) {
+            console.error('Oops');
+        }
+    }
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -48,7 +66,7 @@ const Modal = ({mode, setShowModal}) => {
                         value={data.progress}
                         onChange={handleChange}
                     />
-                    <input className={mode} type='submit'/>
+                    <input className={mode} type='submit' onClick={editMode ? '' : postData }/>
                 </form>
             </div>
         </div>
