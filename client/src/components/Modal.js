@@ -1,8 +1,22 @@
-const Modal = () => {
-    const mode = 'create';
+import {useState} from "react";
 
-    const handleChange = () => {
-        console.log('changing');
+const Modal = ({mode, setShowModal}) => {
+    const editMode = mode === 'edit';
+
+    const [data, setData] = useState({
+        user_email: '',
+        title: '',
+        progress: '',
+        date: editMode ? '' : new Date(),
+    });
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setData(data => ({
+            ...data,
+            [name]: value
+        }));
+        console.log(data);
     }
 
     return (
@@ -10,7 +24,7 @@ const Modal = () => {
             <div className='modal'>
                 <div className='form-title-container'>
                     <h3>{mode} your task</h3>
-                    <button>p</button>
+                    <button onClick={() => setShowModal(false)}>X</button>
                 </div>
 
                 <form>
@@ -19,17 +33,19 @@ const Modal = () => {
                         maxLength={30}
                         placeholder='Your task goes here'
                         name='title'
-                        value={''}
+                        value={data.title}
                         onChange={handleChange}
                     />
                     <br/>
+                    <label for='range'>Drag to select current progress</label>
                     <input
                         required
                         type='range'
+                        id='range'
                         min='0'
                         max='100'
                         name='progress'
-                        value={''}
+                        value={data.progress}
                         onChange={handleChange}
                     />
                     <input className={mode} type='submit'/>

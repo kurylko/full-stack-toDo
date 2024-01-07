@@ -1,4 +1,4 @@
-# Simple Full Stack ToDo app 
+# Simple Full Stack ToDo app with authentication
 
 - React frontend;
 - Node.js + Express backend;
