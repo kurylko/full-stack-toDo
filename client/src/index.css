@@ -48,7 +48,7 @@ input {
 
 .create {
     border: 1.5px solid greenyellow;
-    color: greenyellow;
+    color: #1eb215;
     text-transform: uppercase;
 }
 
@@ -182,4 +182,41 @@ input {
 
 .modal label {
     font-size: 12px;
+}
+
+/* Auth */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+.auth-container-box {
+    display: grid;
+    width: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 6px 25px, rgba(0, 0, 0, 0.08) 0 0 0 1px;
+}
+
+.auth-container-box form {
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    padding: 20px;
+}
+
+.auth-options {
+    display: flex;
+    justify-self: center;
+    padding-bottom: 20px;
+    width: 90%;
+    gap: 10px;
+}
+
+.auth-options button {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid grey;
+    color: dimgrey;
 }

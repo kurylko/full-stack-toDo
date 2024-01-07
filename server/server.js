@@ -5,6 +5,8 @@ const {v4: uuidv4} = require('uuid');
 const app = express();
 const pool = require('./db');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 app.use(cors());
 
@@ -37,6 +39,17 @@ app.get('/todos', async (req, res) => {
         console.error('error');
     }
 });
+
+// getting all users
+app.get('/users', async (req, res) => {
+    try {
+        const users = await pool.query('SELECT * FROM users');
+        res.json(users.rows)
+    } catch (error) {
+        console.error('error');
+    }
+});
+
 
 
 //post a new ToDo
@@ -75,6 +88,57 @@ app.delete('/todos/:id', async (req, res) => {
         res.json(deleteTodo);
     } catch (error) {
         console.error('error');
+    }
+})
+
+
+//sign up
+app.post('/signup', async (req, res) => {
+    const {email, password} = req.body;
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+
+    try {
+        const signedUp = await pool.query(`INSERT INTO users (email, hashed_password) VALUES ($1, $2)`, [email, hashedPassword]);
+        const token = jwt.sign({email}, 'secret', {expiresIn: '1hr'});
+        res.json({email, token});
+
+    } catch (error) {
+        console.error('cant sign up');
+        if (error) {
+            res.json({detail: error.detail})
+        }
+    }
+})
+
+
+//log in
+
+app.post('/login', async (req, res) => {
+    const {email, password} = req.body;
+    try {
+        const users = await pool.query(`SELECT email, hashed_password FROM users WHERE email = $1`, [email]);
+        console.log(users.rows[0]);
+        if (users.rows.length) {
+            const password = req.body.password; // Assuming it's in the req.body
+            const hashedPasswordFromDB = users.rows[0].hashed_password;
+
+            console.log('Input password:', password);
+            console.log('Hashed password from DB:', hashedPasswordFromDB);
+
+            const success = await bcrypt.compare(password, users.rows[0].hashed_password);
+            const token = jwt.sign({email}, 'secret', {expiresIn: '1hr'});
+
+            if (success) {
+                res.json({ 'email': users.rows[0].email, token });
+            } else {
+                res.json({detail: 'Login failed'});
+            }
+            //return res.json({detail: 'User does no exist'});
+        }
+    } catch (error) {
+        console.error('Error logging in:', error);
+        res.status(500).json({detail: 'Internal server error'});
     }
 })
 
