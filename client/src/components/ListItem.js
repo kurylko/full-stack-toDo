@@ -19,13 +19,15 @@ const ListItem = ({getData, task}) => {
         }
     }
 
+    console.log('progress:', task.progress);
+
     return (
         <div className='list-item'>
 
             <div className='info-container'>
                 <TickIcon/>
                 <p className='task-title'>{task.title}</p>
-                <ProgressBar/>
+                <ProgressBar progress={task.progress}/>
             </div>
 
             <div className='button-container'>

@@ -37,6 +37,7 @@ const App = () => {
             {!authToken && <Auth/>}
             {authToken && <>
                 <ListHeader listName={'⛱️ Weekend Tick List'} getData={getData}/>
+                <p className='user-email'>Welcome back {userEmail} </p>
                 {sortedTasks?.map((task) => <ListItem key={task.id} task={task} getData={getData}/>)}
             </>}
 
