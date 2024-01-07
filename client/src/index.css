@@ -16,7 +16,7 @@ body {
     margin-top: 50px;
 }
 
-.button-container {
+.button-container, .info-container {
     display: flex;
     align-items: center;
 }
@@ -29,6 +29,13 @@ body {
     background-color: transparent;
 }
 
+input {
+    margin: 10px 0;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1.5px solid dimgrey;
+}
+
 
 /* List Header */
 
@@ -36,13 +43,143 @@ body {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    border-bottom: rgba(0, 0, 0, 0.5) 1px solid;
+    border-bottom: rgba(0, 0, 0, 0.2) 1px solid;
 }
 
 .create {
+    border: 1.5px solid greenyellow;
+    color: greenyellow;
+    text-transform: uppercase;
+}
 
+.create:hover {
+    background-color: rgba(173, 255, 47, 0.61);
+}
+
+.create:active {
+    background-color: greenyellow;
+    color: white;
 }
 
 .sign-out {
+    border: 1.5px solid dimgrey;
+    background-color: rgba(105, 105, 105, 0.87) !important;
+}
 
+.sign-out:hover {
+    background-color: dimgrey !important;
+    border: 1.5px solid black;
+    color: white;
+}
+
+.sign-out:active {
+    border: 1.5px solid white !important;
+    background-color: white !important;
+}
+
+/* List Item */
+
+.list-item {
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 1px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tick {
+    padding: 10px;
+}
+
+.tick path {
+    fill: none;
+    stroke: black;
+    stroke-miterlimit: 10;
+    stroke-width: 32px;
+}
+
+.edit {
+    border: 1.5px solid rgba(255, 109, 47, 0.75);
+    color: rgba(255, 109, 47, 0.75);
+    background-color: transparent;
+    text-transform: uppercase;
+}
+
+.edit:hover {
+    background-color: rgba(255, 109, 47, 0.15);
+}
+
+.edit:active {
+    background-color: rgba(255, 109, 47, 0.15);
+    border: 1.5px solid rgba(255, 109, 47, 0.99);
+    color: rgba(255, 109, 47, 0.02);
+}
+
+.delete {
+    border: 1.5px solid rgba(255, 78, 47, 0.75);
+    color: rgba(255, 78, 47, 0.75);
+    background-color: transparent;
+    text-transform: uppercase;
+}
+
+.delete:hover {
+    background-color: rgba(255, 78, 47, 0.15);
+}
+
+.delete:active {
+    background-color: rgba(255, 78, 47, 0.75);
+    border: 1.5px solid rgba(255, 78, 47, 0.80);
+    color: rgba(255, 78, 47, 0.07);
+}
+
+.task-title {
+
+}
+
+
+/* Modal */
+
+.overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    width: 500px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 6px 25px 0, rgba(0, 0, 0, 0.8) 0 0 0 1px;
+}
+
+.form-title-container {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.form-title-container button {
+    border: none;
+    background-color: transparent;
+}
+
+.form-title-container button:active {
+    color: rgba(255, 78, 47, 0.80);
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal label {
+    font-size: 12px;
 }
